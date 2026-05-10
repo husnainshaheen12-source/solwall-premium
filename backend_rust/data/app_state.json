@@ -1,0 +1,18 @@
+{
+  "users": {
+    "hg": {
+      "full_name": "hgh",
+      "username": "hg",
+      "password_hash": "907b8573e3d7d38f52d6e08ceb5184bdd0e69f11c2083a4b5885fd8768232f50"
+    },
+    "husna": {
+      "full_name": "husna shah",
+      "username": "husna",
+      "password_hash": "b5aae9867498a410c2fa6eb2a657b730ab070af3bdae6b0d672db4661756603c"
+    }
+  },
+  "premium_users": [
+    "hg",
+    "husna"
+  ]
+}
