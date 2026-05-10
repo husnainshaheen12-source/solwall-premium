@@ -151,9 +151,10 @@ async fn main() -> anyhow::Result<()> {
     .unwrap_or(8080);
 
 let addr = SocketAddr::from(([0, 0, 0, 0], port));
-    println!("Wallpaper Rust backend running on http://{addr}");
-    axum::serve(tokio::net::TcpListener::bind(addr).await?, app).await?;
-    Ok(())
+println!("Wallpaper Rust backend running on http://{addr}");
+axum::serve(tokio::net::TcpListener::bind(addr).await?, app).await?;
+
+Ok(())
 }
 
 async fn load_db(path: &PathBuf) -> anyhow::Result<AppDb> {
