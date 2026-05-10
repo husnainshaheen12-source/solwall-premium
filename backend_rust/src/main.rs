@@ -110,16 +110,16 @@ async fn main() -> anyhow::Result<()> {
     let db_path = PathBuf::from(env::var("APP_DB_PATH").unwrap_or_else(|_| "data/app_state.json".to_string()));
     let db = load_db(&db_path).await.unwrap_or_default();
 
-    let merchant_wallet = env::var("MERCHANT_SOLANA_WALLET")
+    let merchant_wallet = env::var("MERCHANTSOLANAWALLET")
         .unwrap_or_else(|_| "YOUR_SOLANA_WALLET_ADDRESS_HERE".to_string());
-    let solana_rpc_url = env::var("SOLANA_RPC_URL")
+    let solana_rpc_url = env::var("SOLANARPCURL")
         .unwrap_or_else(|_| "https://api.devnet.solana.com".to_string());
-    let premium_price_sol: f64 = env::var("PREMIUM_PRICE_SOL")
+    let premium_price_sol: f64 = env::var("PREMIUMPRICESOL")
         .unwrap_or_else(|_| "0.05".to_string())
         .parse()
         .unwrap_or(0.05);
     let premium_price_lamports = (premium_price_sol * 1_000_000_000_f64) as u64;
-    let mock_blockchain_payments = env::var("MOCK_BLOCKCHAIN_PAYMENTS")
+    let mock_blockchain_payments = env::var("MOCKBLOCKCHAINPAYMENTS")
         .map(|v| v.eq_ignore_ascii_case("true") || v == "1")
         .unwrap_or(false);
 
@@ -301,7 +301,7 @@ async fn category_wallpapers(Path(category): Path<String>) -> Result<Json<Vec<Wa
 
 async fn wallet(State(state): State<AppState>) -> Json<WalletResponse> {
     Json(WalletResponse {
-        network: "Solana devnet/mainnet configurable by SOLANA_RPC_URL".to_string(),
+        network: "Solana devnet/mainnet configurable by SOLANARPCURL".to_string(),
         merchant_wallet: state.merchant_wallet,
         premium_price_sol: state.premium_price_lamports as f64 / 1_000_000_000_f64,
     })
@@ -324,7 +324,7 @@ async fn verify_payment(
     }
 
     if state.merchant_wallet == "F9cjyfER8rzt1vUXBwbyLRaowPG1SUwnbqWzVQHN7Xzj" && !state.mock_blockchain_payments {
-        return Err(ApiError::bad_request("Set MERCHANT_SOLANA_WALLET or enable MOCK_BLOCKCHAIN_PAYMENTS for local testing"));
+        return Err(ApiError::bad_request("Set MERCHANTSOLANAWALLET or enable MOCKBLOCKCHAINPAYMENTS for local testing"));
     }
 
     let verified = if state.mock_blockchain_payments {
@@ -461,3 +461,5 @@ impl IntoResponse for ApiError {
         (self.status, Json(json!({ "error": self.message }))).into_response()
     }
 }
+
+
